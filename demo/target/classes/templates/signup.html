@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signup Page</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: flex-end; /* Move container to the right */
+        align-items: center;
+        height: 100vh;
+        background-image: url("https://blog.1password.com/articles/password-manager-faq/header.svg");
+    }
+
+    .signup-container {
+        background-color: #270928;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        width: 400px;
+        height: 500px;
+        margin-right: 100px; /* Enlarge container */
+    }
+
+    .signup-container h2 {
+        margin-bottom: 20px;
+        color: #ffffff;
+    }
+
+    .signup-container input[type="text"],
+    .signup-container input[type="password"] {
+        width: calc(100% - 20px);
+        padding: 10px;
+        margin: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .signup-container input[type="submit"] {
+        width: 30%;
+        padding: 10px;
+        margin-top: 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #28a745;
+        color: #fff;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .signup-container input[type="submit"]:hover {
+        background-color: #218838;
+    }
+
+    .signup-container .login-link {
+        margin-top: 15px;
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .signup-container .login-link:hover {
+        text-decoration: underline;
+    }
+
+    img{
+        margin-top: auto;
+        margin-left: auto;
+        max-width: 50%;
+    }
+</style>
+</head>
+<body>
+<div class="signup-container">
+    <h2>Signup</h2>
+    <form action="#" method="post">
+        <input type="text" name="fullname" placeholder="Full Name" required>
+        <input type="text" name="email" placeholder="Email" required>
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <input type="submit" value="Signup">
+    </form>
+    <a href="login.html" class="login-link">Already have an account? Login here</a>
+</div>
+</body>
+</html>

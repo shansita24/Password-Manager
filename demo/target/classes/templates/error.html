@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PassSafe - Your Secure Password Manager</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: relative; 
+    overflow: hidden; /* Prevent the overlay from causing scrollbars */
+}
+
+/* Add a pseudo-element to overlay the background image */
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("https://blog.1password.com/articles/password-manager-faq/header.svg");
+    background-size: cover;
+    background-position: center;
+    opacity: 0.3; /* Adjust the opacity to control the fade effect */
+}
+
+.container {
+    text-align: center;
+    position: relative; /* Ensure the container remains on top of the overlay */
+    z-index: 1; /* Set a higher z-index to ensure the container is above the overlay */
+}
+.password-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+}
+
+.password-table th, .password-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.password-table th {
+    background-color: #f2f2f2;
+    color: #333;
+    font-weight: bold;
+}
+
+.password-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.password-table tbody tr:hover {
+    background-color: #f2f2f2;
+}
+
+    h1 {
+        color: #ffffff;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add text shadow */
+        font-size: 3em; /* Increase font size */
+    }
+
+    .options {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 50px;
+    }
+
+    .option {
+        width: 200px;
+        padding: 20px;
+        margin: 20px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+        color: #333; /* Text color */
+        text-decoration: none;
+        display: inline-block;
+        transition: background-color 0.3s;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Add a shadow */
+    }
+
+    .option:hover {
+        background-color: #f0f0f0; /* Light gray background on hover */
+    }
+
+    .option h2 {
+        margin-bottom: 10px;
+        font-size: 1.2em; /* Increase font size */
+    }
+
+    .option p {
+        color: #666; /* Light gray text color */
+    }
+
+    .profile-option {
+        position: absolute;
+        top: 20px; /* Adjust bottom position as needed */
+        right: 20px; /* Adjust right position as needed */
+    }
+
+    .profile-option img {
+        width: 56px; /* Adjust image size as needed */
+        border-radius: 50%; /* Make image round */
+        border: 2px solid #fff; /* Add a white border */
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Add a shadow */
+    }
+</style>
+</head>
+<body>
+    <div class="container">
+        <h1>Password Manager</h1>
+        <table class="password-table" th:if="${passwordEntries}">
+            <thead>
+                <tr>
+                    <th>URL</th>
+                    <th>Password</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="entry : ${passwordEntries}">
+                    <td th:text="${entry.url}"></td>
+                    <td th:text="${entry.pwd}"></td>
+                </tr>
+            </tbody>
+        </table>
+        <br><br><br>
+        <form action="/addEntry" method="post">
+            <label for="url">URL:</label>
+            <input type="text" id="url" name="url" required><br><br>
+            <label for="password">Password:</label>
+            <input type="text" id="password" name="password" required><br><br>
+            <button type="submit">Add</button>
+        </form>
+        <br><br>
+        <a href="/">Back to Home</a>
+    </div>
+</body>
+</html>

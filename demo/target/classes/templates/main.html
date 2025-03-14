@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PassSafe - Your Secure Password Manager</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        position: relative;
+        background-image: url("https://blog.1password.com/articles/password-manager-faq/header.svg");
+    }
+
+    .container {
+        text-align: center;
+    }
+
+    h1 {
+        color: #ffffff;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add text shadow */
+        font-size: 3em; /* Increase font size */
+    }
+
+    .options {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 50px;
+    }
+
+    .option {
+        width: 200px;
+        padding: 20px;
+        margin: 20px;
+        border-radius: 8px;
+        /*background-color: #2f0e35; */
+        color: #fff;
+        text-decoration: none;
+        display: inline-block;
+        transition: background-color 0.3s;
+        background: transparent;
+        backdrop-filter:blur(56px);
+        }
+
+    .option:hover {
+        background-color: #731c90;
+    }
+
+    .option h2 {
+        margin-bottom: 10px;
+    }
+
+    .option p {
+        color: #eee;
+    }
+
+    .profile-option {
+        position: absolute;
+        top: 20px; /* Adjust bottom position as needed */
+        right: 20px;
+    }
+
+    .profile-option img {
+        width: 56px; /* Adjust image size as needed */
+        border-radius: 200%; /* Make image round */
+        border: 2px solid #fff; /* Add a white border */
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Add a shadow */
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>Pass Safe</h1>
+    <div class="options">
+        <a href="passwordmanager" class="option">
+            <h2>Password Manager</h2>
+            <p>Store and manage your passwords securely.</p>
+        </a>
+        <a href="passwordgenerator" class="option">
+            <h2>Password Generator</h2>
+            <p>Create strong and unique passwords.</p>
+        </a>
+        <a href="pwdstrengthchecker" class="option">
+            <h2>Password Strength checker</h2>
+            <p>Checks if the password is strong enough.</p>
+        </a>
+    </div>
+</div>
+</body>
+</html>

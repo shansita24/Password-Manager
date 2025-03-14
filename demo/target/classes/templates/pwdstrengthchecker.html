@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Strength Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            background-image: url("https://blog.1password.com/articles/password-manager-faq/header.svg");
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #ebf2ff;
+        }
+
+        main {
+            background-color: #000000;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .password-input {
+            margin-bottom: 20px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #f2f2f2;
+            flex: 1;
+        }
+
+        input[type="password"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .show-password-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .show-password-label {
+            color: #f2f2f2;
+            margin-left: 5px;
+        }
+
+        .copy-button {
+            padding: 10px;
+            background-color: #3B3B98;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            flex: 0.2;
+            margin-top: 5px;
+            align-self: flex-end;
+        }
+
+        .copy-button:hover {
+            background-color: #23235B;
+        }
+
+        .copy-icon {
+            margin-right: 5px;
+        }
+
+        .result {
+            text-align: center;
+        }
+        .floating-text {
+            background-color: #001F61;
+            border-radius: 10px 10px 0 0;
+            color: #fff;
+            font-family: 'Muli';
+            padding: 7px 15px;
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 998;
+        }
+
+        .floating-text a {
+            color: #FF7500;
+            text-decoration: none;
+        }
+
+
+        .strength-meter {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .bar {
+            flex-grow: 1;
+            height: 20px;
+            border-radius: 5px;
+        }
+
+        .very-weak {
+            background-color: #ff4d4d;
+        }
+
+        .weak {
+            background-color: #ff944d;
+        }
+
+        .medium {
+            background-color: #ffcc4d;
+        }
+
+        .strong {
+            background-color: #99ff4d;
+        }
+
+        .very-strong {
+            background-color: #4dff4d;
+        }
+
+        .strength-text {
+            font-weight: bold;
+            color: #fffefe;
+        }
+
+        .time-to-crack {
+            font-size: 14px;
+            color: #555;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>Password Strength Checker</h1>
+    </header>
+    <main>
+        <section class="password-input">
+            <label for="password">Enter your password:</label>
+            <input type="password" id="password" name="password" placeholder="Your password" autocomplete="off" onkeyup="checkPasswordStrength()">
+            <button class="copy-button" id="clipboard">
+                <i class="far fa-clipboard copy-icon"></i>📋
+            </button>
+            <div class="show-password-container">
+                <input type="checkbox" id="showPassword" class="show-password" onchange="togglePasswordVisibility()">
+                <label for="showPassword" class="show-password-label">Show Password</label>
+            </div>
+        </section>
+        <section class="result">
+            <div class="strength-meter">
+                <div class="bar very-weak"></div>
+                <div class="bar weak"></div>
+                <div class="bar medium"></div>
+                <div class="bar strong"></div>
+                <div class="bar very-strong"></div>
+            </div>
+            <div class="strength-text" id="strengthText"></div>
+            <div class="time-to-crack" id="timeToCrack"></div>
+        </section>
+    </main>
+</div>
+
+<script>
+    function checkPasswordStrength() {
+        var password = document.getElementById("password").value;
+        var strengthText = document.getElementById("strengthText");
+        var timeToCrackText = document.getElementById("timeToCrack");
+
+        var regexes = [
+            /[a-z]/,
+            /[A-Z]/,
+            /\d/,
+            /[^A-Za-z0-9]/
+        ];
+
+        var strengthScore = 0;
+        var strengthLevel;
+
+        for (var i = 0; i < regexes.length; i++) {
+            if (regexes[i].test(password)) {
+                strengthScore++;
+            }
+        }
+
+        if (password.length < 8) {
+            strengthLevel = "Very Weak";
+        } else if (strengthScore === 1) {
+            strengthLevel = "Weak";
+        } else if (strengthScore === 2) {
+            strengthLevel = "Medium";
+        } else if (strengthScore === 3) {
+            strengthLevel = "Strong";
+        } else {
+            strengthLevel = "Very Strong";
+        }
+
+        var meterBars = document.querySelectorAll(".bar");
+        meterBars.forEach(function(bar, index) {
+            bar.style.backgroundColor = index < strengthScore ? getBarColor(strengthLevel) : "#eee";
+        });
+
+        strengthText.textContent = "Strength: " + strengthLevel;
+        sendPassword(password);
+    }
+
+    function sendPassword(password) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "http://localhost:8000/checkPasswordStrength", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                var responseParts = xhr.responseText.split(" ");
+                var strengthLevel = responseParts[0];
+                var timeToCrack = responseParts[1];
+                document.getElementById("strengthText").textContent = "Strength: " + strengthLevel;
+                document.getElementById("timeToCrack").textContent = "Estimated time to crack: " + timeToCrack;
+            }
+        };
+        xhr.send("password=" + encodeURIComponent(password));
+    }
+
+    function getBarColor(strengthLevel) {
+        switch (strengthLevel) {
+            case "Very Weak":
+                return "#ff4d4d";
+            case "Weak":
+                return "#ff944d";
+            case "Medium":
+                return "#ffcc4d";
+            case "Strong":
+                return "#99ff4d";
+            case "Very Strong":
+                return "#4dff4d";
+            default:
+                return "#ccc";
+        }
+    }
+
+    function togglePasswordVisibility() {
+        var passwordInput = document.getElementById("password");
+        var showPasswordCheckbox = document.getElementById("showPassword");
+        if (showPasswordCheckbox.checked) {
+            passwordInput.type = "text";
+        } else {
+            passwordInput.type = "password";
+        }
+    }
+
+    const clipboard = document.getElementById('clipboard');
+    const resultEl = document.getElementById('result');
+
+    clipboard.addEventListener('click', () => {
+        const textarea = document.createElement('textarea');
+        const password = resultEl.innerText;
+
+        if (!password) { return; }
+
+        textarea.value = password;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        textarea.remove();
+        alert('Password copied to clipboard');
+    });
+</script>
+<div class="floating-text">
+    <a href="/">Log out</a> | <a href="/main">Back to Dashboard</a>
+</div>
+</body>
+</html>
