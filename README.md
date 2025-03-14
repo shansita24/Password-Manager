@@ -27,18 +27,11 @@ Ensure you have the following installed:
 ### Setup  
 1. **Clone the repository:**  
    ```sh
-   git clone https://github.com/your-username/password-manager.git
+   git clone https://github.com/Shansita24/Password-Manager.git
    cd password-manager
 
-## Configure MySQL Database  
-Update `application.properties` with your database credentials:  
-
-```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/password_manager
-spring.datasource.username=root
-spring.datasource.password=your_password
-spring.jpa.hibernate.ddl-auto=update
-```
+2. **Configure the database setup accordingly**
+   
 ## Build and Run the Application  
 
 ```sh
